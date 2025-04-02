@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contacto</title>
+    <style>
+        /* Estilos globales */
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        /* Estilo del contenedor principal */
+        .container {
+            background-color: white;
+            padding: 40px 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .container:hover {
+            transform: translateY(-10px);
+        }
+
+        /* Título de la página */
+        h1 {
+            color: #333;
+            font-size: 2rem;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        p {
+            color: #555;
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
+
+        /* Estilos para los íconos de redes sociales */
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-top: 20px;
+        }
+
+        .social-icons a {
+            text-decoration: none;
+            transition: transform 0.3s ease;
+        }
+
+        /* Efecto hover */
+        .social-icons a:hover {
+            transform: scale(1.1);
+        }
+
+        /* Estilos específicos para los íconos */
+        .social-icons img {
+            width: 50px;  /* Ajusta el tamaño de los íconos */
+            height: 50px;
+        }
+
+        /* Colores de hover personalizados */
+        .social-icons a:hover .facebook-icon {
+            filter: brightness(0.8);
+        }
+
+        .social-icons a:hover .tiktok-icon {
+            filter: brightness(0.8);
+        }
+
+        .social-icons a:hover .whatsapp-icon {
+            filter: brightness(0.8);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>¡Conéctate con nosotros!</h1>
+        <p>Estamos disponibles en las siguientes plataformas. ¡Haz clic en el ícono para interactuar con nosotros!</p>
+        <div class="social-icons">
+            <!-- Facebook -->
+            <a href="https://www.facebook.com/creacionesjj.ec" target="_blank">
+                <img src="./logos/face.png" alt="Facebook" class="facebook-icon">
+            </a>
+            <!-- TikTok -->
+            <a href="https://www.tiktok.com/@creacionesjj.ec" target="_blank">
+                <img src="./logos/tik.png" alt="TikTok" class="tiktok-icon">
+            </a>
+            <!-- WhatsApp -->
+            <a href="https://wa.me/+593958869527" target="_blank">
+                <img src="./logos/wat.png" alt="WhatsApp" class="whatsapp-icon">
+            </a>
+        </div>
+    </div>
+
+</body>
+</html>
