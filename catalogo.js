@@ -125,14 +125,14 @@ document.addEventListener("DOMContentLoaded", () => {
             formData.append("carrito", JSON.stringify(carritoArray));
             formData.append("comprobante", comprobanteArchivo);
 
-            fetch("http://localhost:3000/confirmar-compra", {
+            fetch("https://creacionesjj.herokuapp.com", {
                 method: "POST",
                 body: formData
             })
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    alert(`Comprobante enviado para ${nombreUsuario}. ¡Gracias por tu compra!`);
+                    alert(`Comprobante enviado, en unos momentos confirmamos tu compra. ¡Gracias por tu compra!`);
                     modal.style.display = "block"; 
                     modalNombre.style.display = "none"; 
                 } else {

@@ -57,8 +57,8 @@ app.post('/confirmar-compra', upload.single('comprobante'), (req, res) => {
     }
 });
 
-// Iniciar el servidor
-const PORT = 3000;
-app.listen(PORT, () => {
-    console.log(`Servidor corriendo en http://localhost:${PORT}`);
+// Usa el puerto que Heroku le asigna o 3000 para desarrollo local
+const port = process.env.PORT || 3000;
+app.listen(port, () => {
+    console.log(`Servidor corriendo en http://localhost:${port}`);
 });
