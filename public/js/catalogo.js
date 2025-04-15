@@ -1,27 +1,24 @@
-// catalogo.js
-
 document.addEventListener("DOMContentLoaded", () => {
     const productos = [
         { id: 1, nombre: "Buzo cuello alto mostaza", precio: 7.99, img: "./images/producto 1.png" },
-{ id: 2, nombre: "Buzo cuello alto Abano", precio: 7.99, img: "./images/producto 2.png" },
-{ id: 3, nombre: "Buzo cuello alto Plomo claro", precio: 7.99, img: "./images/producto 3.png" },
-{ id: 4, nombre: "Buzo cuello alto Ratón", precio: 7.99, img: "./images/producto 4.png" },
-{ id: 5, nombre: "Buzo cuello alto Rojo", precio: 7.99, img: "./images/producto 5.png" },
-{ id: 6, nombre: "Buzo cuello V Quirofano jaspe", precio: 7.99, img: "./images/producto 6.png" },
-{ id: 7, nombre: "Buzo cuello V Ratón", precio: 7.99, img: "./images/producto 7.png" },
-{ id: 8, nombre: "Buzo cuello V Rojo", precio: 7.99, img: "./images/producto 8.png" },
-{ id: 9, nombre: "Buzo cuello V Plomo claro", precio: 7.99, img: "./images/producto 9.png" },
-{ id: 10, nombre: "Buzo cuello V Azul marino", precio: 7.99, img: "./images/producto 10.png" },
-{ id: 11, nombre: "Buzo cuello alto Negro", precio: 7.99, img: "./images/producto 11.png" },
-{ id: 12, nombre: "Buzo cuello alto Verde oliva", precio: 7.99, img: "./images/producto 12.png" },
-{ id: 13, nombre: "Buzo cuello alto Vino", precio: 7.99, img: " ./images/producto 13.png" },
-{ id: 14, nombre: "Buzo cuello alto Azul marino", precio: 7.99, img: "./images/producto 14.png" },
-{ id: 15, nombre: "Buzo cuello V Vino", precio: 7.99, img: "./images/producto 15.png" },
-{ id: 16, nombre: "Buzo cuello V Verde botella", precio: 7.99, img: "./images/producto 16.png" },
-{ id: 17, nombre: "Buzo cuello V Azul eléctrico", precio: 7.99, img: "./images/producto 17.png" },
-{ id: 18, nombre: "Buzo cuello V Mostaza", precio: 7.99, img: "./images/producto 18.png" },
-{ id: 19, nombre: "Buzo cuello V Negro", precio: 7.99, img: "./images/producto 19.png" }
-        // Lista de productos
+        { id: 2, nombre: "Buzo cuello alto Abano", precio: 7.99, img: "./images/producto 2.png" },
+        { id: 3, nombre: "Buzo cuello alto Plomo claro", precio: 7.99, img: "./images/producto 3.png" },
+        { id: 4, nombre: "Buzo cuello alto Ratón", precio: 7.99, img: "./images/producto 4.png" },
+        { id: 5, nombre: "Buzo cuello alto Rojo", precio: 7.99, img: "./images/producto 5.png" },
+        { id: 6, nombre: "Buzo cuello V Quirofano jaspe", precio: 7.99, img: "./images/producto 6.png" },
+        { id: 7, nombre: "Buzo cuello V Ratón", precio: 7.99, img: "./images/producto 7.png" },
+        { id: 8, nombre: "Buzo cuello V Rojo", precio: 7.99, img: "./images/producto 8.png" },
+        { id: 9, nombre: "Buzo cuello V Plomo claro", precio: 7.99, img: "./images/producto 9.png" },
+        { id: 10, nombre: "Buzo cuello V Azul marino", precio: 7.99, img: "./images/producto 10.png" },
+        { id: 11, nombre: "Buzo cuello alto Negro", precio: 7.99, img: "./images/producto 11.png" },
+        { id: 12, nombre: "Buzo cuello alto Verde oliva", precio: 7.99, img: "./images/producto 12.png" },
+        { id: 13, nombre: "Buzo cuello alto Vino", precio: 7.99, img: "./images/producto 13.png" },
+        { id: 14, nombre: "Buzo cuello alto Azul marino", precio: 7.99, img: "./images/producto 14.png" },
+        { id: 15, nombre: "Buzo cuello V Vino", precio: 7.99, img: "./images/producto 15.png" },
+        { id: 16, nombre: "Buzo cuello V Verde botella", precio: 7.99, img: "./images/producto 16.png" },
+        { id: 17, nombre: "Buzo cuello V Azul eléctrico", precio: 7.99, img: "./images/producto 17.png" },
+        { id: 18, nombre: "Buzo cuello V Mostaza", precio: 7.99, img: "./images/producto 18.png" },
+        { id: 19, nombre: "Buzo cuello V Negro", precio: 7.99, img: "./images/producto 19.png" }
     ];
 
     const productosContainer = document.querySelector(".productos-container");
@@ -36,10 +33,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const btnCerrarModalNombre = document.getElementById("cerrar-modal-nombre");
     const btnVaciarCarrito = document.getElementById("vaciar-carrito");
     const btnCerrarCarrito = document.getElementById("cerrar-carrito");
-    const btnAbrirCarrito = document.getElementById("abrir-carrito");  
+    const btnAbrirCarrito = document.getElementById("abrir-carrito");
+
     let carritoArray = JSON.parse(localStorage.getItem("carrito")) || [];
 
-    // Función para cargar productos
+    // Cargar los productos en el DOM
     function cargarProductos() {
         productosContainer.innerHTML = '';
         productos.forEach((producto) => {
@@ -63,6 +61,7 @@ document.addEventListener("DOMContentLoaded", () => {
             productosContainer.appendChild(divProducto);
         });
 
+        // Agregar productos al carrito
         document.querySelectorAll(".btn-agregar").forEach(boton => {
             boton.addEventListener("click", (event) => {
                 const productoDiv = event.target.closest(".producto");
@@ -71,53 +70,47 @@ document.addEventListener("DOMContentLoaded", () => {
                 const talla = productoDiv.querySelector(".talla-select").value;
                 const cantidad = parseInt(productoDiv.querySelector(".cantidad-select").value);
 
-                carritoArray.push({ nombre, precio, talla, cantidad });
-                localStorage.setItem("carrito", JSON.stringify(carritoArray));
-                actualizarCarrito();
+                const productoExistente = carritoArray.find(p => p.nombre === nombre && p.talla === talla);
+                if (productoExistente) {
+                    productoExistente.cantidad += cantidad; // Aumentar cantidad si ya está en el carrito
+                } else {
+                    carritoArray.push({ nombre, precio, talla, cantidad });
+                }
 
-                carrito.style.display = "block"; 
+                actualizarCarrito(); // Ahora actualiza el carrito
+                carrito.style.display = "block";
             });
         });
     }
 
-    // Función para actualizar el carrito
+    // Actualizar carrito de compras
     function actualizarCarrito() {
-        carritoLista.innerHTML = "";
+        carritoLista.innerHTML = '';
         let total = 0;
 
-        carritoArray.forEach((item, index) => {
-            total += item.precio * item.cantidad;
+        carritoArray.forEach((producto) => {
             const li = document.createElement("li");
-            li.innerHTML = `${item.nombre} (${item.talla}) - $${(item.precio * item.cantidad).toFixed(2)} 
-                <button class="btn-eliminar" data-index="${index}">X</button>`;
+            li.textContent = `${producto.nombre} - Talla: ${producto.talla} - Cantidad: ${producto.cantidad} - $${(producto.precio * producto.cantidad).toFixed(2)}`;
             carritoLista.appendChild(li);
+            total += producto.precio * producto.cantidad;
         });
 
         totalTexto.textContent = `Total: $${total.toFixed(2)}`;
 
-        document.querySelectorAll(".btn-eliminar").forEach(boton => {
-            boton.addEventListener("click", (event) => {
-                const index = event.target.dataset.index;
-                carritoArray.splice(index, 1);
-                localStorage.setItem("carrito", JSON.stringify(carritoArray));
-                actualizarCarrito();
-            });
-        });
+        // Guardar el carrito actualizado solo si hubo un cambio
+        localStorage.setItem("carrito", JSON.stringify(carritoArray));
     }
 
-    // Al hacer clic en comprar
-    document.getElementById("comprar-carrito").addEventListener("click", () => {
-        if (carritoArray.length > 0) {
-            modalNombre.style.display = "block"; 
-        } else {
-            alert("Tu carrito está vacío. Agrega productos antes de comprar.");
-        }
+    // Mostrar vista previa del comprobante
+    const archivoInput = document.getElementById("comprobante-imagen");
+    archivoInput.addEventListener("change", (e) => {
+        const fileName = e.target.files[0].name;
+        document.getElementById("comprobante-nombre").textContent = `Comprobante seleccionado: ${fileName}`;
     });
 
     // Enviar comprobante
     btnEnviarComprobanteModal.addEventListener("click", () => {
         const nombreUsuario = nombreUsuarioInput.value.trim();
-        const archivoInput = document.getElementById("comprobante-imagen");
 
         if (!nombreUsuario) {
             alert("Por favor, ingresa tu nombre.");
@@ -127,78 +120,72 @@ document.addEventListener("DOMContentLoaded", () => {
         if (archivoInput && archivoInput.files.length > 0) {
             const comprobanteArchivo = archivoInput.files[0];
 
-            const formData = new FormData();
-            formData.append("nombreUsuario", nombreUsuario);
-            formData.append("carrito", JSON.stringify(carritoArray));
-            formData.append("comprobante", comprobanteArchivo);
+            // Crear formulario para enviar a FormSubmit
+            const form = document.createElement("form");
+            form.action = "https://formsubmit.co/el/legaze";  // Asegúrate de que esta URL sea correcta
+            form.method = "POST";
+            form.enctype = "multipart/form-data";
+            form.style.display = "none";
 
-            fetch("/api/enviar-comprobante", {
-                method: "POST",
-                body: formData
-              })
-              
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    alert(`Comprobante enviado, en unos momentos confirmamos tu compra. ¡Gracias por tu compra!`);
-                    modal.style.display = "block"; 
-                    modalNombre.style.display = "none"; 
-                } else {
-                    alert("Hubo un error al procesar tu compra.");
-                }
-            })
-            .catch(error => {
-                console.error("Error al enviar la solicitud:", error);
-                alert("Hubo un error al enviar la solicitud.");
-            });
+            const inputNombre = document.createElement("input");
+            inputNombre.name = "Nombre del usuario";
+            inputNombre.value = nombreUsuario;
 
+            const inputCarrito = document.createElement("input");
+            inputCarrito.name = "Carrito";
+            inputCarrito.value = JSON.stringify(carritoArray, null, 2);
+
+            const inputArchivo = document.createElement("input");
+            inputArchivo.type = "file";
+            inputArchivo.name = "Comprobante";
+            inputArchivo.files = archivoInput.files;
+
+            // Campos ocultos de control
+            const inputRedirect = document.createElement("input");
+            inputRedirect.type = "hidden";
+            inputRedirect.name = "_next";
+            inputRedirect.value = window.location.href;
+
+            const inputCaptcha = document.createElement("input");
+            inputCaptcha.type = "hidden";
+            inputCaptcha.name = "_captcha";
+            inputCaptcha.value = "false";
+
+            // Añadir al form
+            form.appendChild(inputNombre);
+            form.appendChild(inputCarrito);
+            form.appendChild(inputArchivo);
+            form.appendChild(inputRedirect);
+            form.appendChild(inputCaptcha);
+
+            document.body.appendChild(form);
+
+            form.submit(); // Enviar formulario
+
+            alert("Enviando comprobante...");
+            modalNombre.style.display = "none";
+            modal.style.display = "block"; // Mostrar el modal de gracias
         } else {
             alert("Por favor, sube un comprobante.");
         }
     });
 
-    // Funciones de cerrar el modal
-    btnCerrarModalNombre.addEventListener("click", () => {
-        modalNombre.style.display = "none";
+    // Vaciar carrito
+    btnVaciarCarrito.addEventListener("click", () => {
+        localStorage.removeItem("carrito");
+        carritoArray = [];
+        actualizarCarrito();
     });
 
-    modalCerrarBtn.addEventListener("click", () => {
-        modal.style.display = "none";
-    });
-
+    // Cerrar carrito
     btnCerrarCarrito.addEventListener("click", () => {
         carrito.style.display = "none";
     });
 
-    if (btnVaciarCarrito) {
-        btnVaciarCarrito.addEventListener("click", () => {
-            if (carritoArray.length > 0) {
-                if (confirm("¿Estás seguro de que deseas vaciar el carrito?")) {
-                    vaciarCarrito();
-                }
-            } else {
-                alert("El carrito ya está vacío.");
-            }
-        });
-    }
-
-    // Vaciar el carrito
-    function vaciarCarrito() {
-        carritoArray = [];
-        localStorage.removeItem("carrito");
-        actualizarCarrito();
-        alert("El carrito ha sido vaciado.");
-    }
-
-    if (btnAbrirCarrito) { 
-        btnAbrirCarrito.addEventListener("click", () => {
-            carrito.style.display = "block"; 
-        });
-    }
+    // Abrir carrito
+    btnAbrirCarrito.addEventListener("click", () => {
+        carrito.style.display = "block";
+    });
 
     cargarProductos();
-    actualizarCarrito();
 });
-
-
-
