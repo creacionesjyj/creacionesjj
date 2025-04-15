@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrito de Compras</title>
+    <link rel="stylesheet" href="./css/styles2.css">
+
+
+</head>
+<body>
+    <header>
+        <h1>Catálogo de Productos</h1>
+        <button id="abrir-carrito">Abrir carrito</button>
+    </header>
+
+
+    <div class="productos-container">
+     
+    </div>
+
+    
+    <div class="carrito" style="display: none;">
+        <h2>Carrito</h2>
+        <ul id="carrito-lista"></ul>
+        <p id="total">Total: $0.00</p>
+        <button id="comprar-carrito">Comprar</button>
+        <button id="cerrar-carrito">Cerrar carrito</button>
+        <button id="vaciar-carrito">Vaciar carrito</button>
+     
+    </div>
+
+    <div id="modal-nombre" class="modal" style="display: none;">
+        <div class="modal-content">
+
+            <h2>Para realizar la transferencia o depósito, utiliza la siguiente cuenta:</h2>
+            <p><strong>Banco:</strong>PICHINCHA</p>
+            <p><strong>Cuenta:</strong>5105587200 </p>
+            <p><strong>Nombre: </strong> JOSE MARCIAL QUISHPI VILLA </p>
+            <p>                                                 </p>
+          
+            <h3>Ingresa tu Nombre y Apellido con el que realizaste la transferencia para confirmar la transferencia</h3>
+            <input type="text" id="nombre-usuario" placeholder="Nombre y Apellido" required>
+            <input type="file" id="comprobante-imagen" accept="image/*">
+            <button id="btn-enviar-comprobante-modal">Enviar comprobante</button>
+            <button id="cerrar-modal-nombre">Cerrar</button>
+           
+
+        </div>
+    </div>
+
+
+    <div id="modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <h2>¡Gracias por tu compra!</h2>
+           
+            <button id="cerrar-modal">Cerrar</button>
+        </div>
+    </div>
+
+    <script src="./js/catalogo.js"></script>
+</body>
+</html>
