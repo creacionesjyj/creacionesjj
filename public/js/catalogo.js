@@ -28,24 +28,27 @@ document.addEventListener("DOMContentLoaded", () => {
     const modalNombre = document.getElementById("modal-nombre");
     const modal = document.getElementById("modal");
     const nombreUsuarioInput = document.getElementById("nombre-usuario");
-    const btnEnviarComprobanteModal = document.getElementById("btn-enviar-comprobante-modal");
-    const modalCerrarBtn = document.getElementById("cerrar-modal");
-    const btnCerrarModalNombre = document.getElementById("cerrar-modal-nombre");
+    const emailUsuarioInput = document.getElementById("email-usuario");
+    const archivoInput = document.getElementById("comprobante-imagen");
+    const comprobanteNombre = document.getElementById("comprobante-nombre");
+    const formComprobante = document.getElementById("form-comprobante");
+    const inputCarritoDatos = document.getElementById("carrito-datos");
+
     const btnVaciarCarrito = document.getElementById("vaciar-carrito");
     const btnCerrarCarrito = document.getElementById("cerrar-carrito");
     const btnAbrirCarrito = document.getElementById("abrir-carrito");
+    const btnCerrarModalNombre = document.getElementById("cerrar-modal-nombre");
+    const btnCerrarModalGracias = document.getElementById("cerrar-modal");
+    const btnComprar = document.getElementById("comprar-carrito");
 
     let carritoArray = JSON.parse(localStorage.getItem("carrito")) || [];
 
-    // Cargar los productos en el DOM
     function cargarProductos() {
         productosContainer.innerHTML = '';
         productos.forEach((producto) => {
-            const divProducto = document.createElement('div');
-            divProducto.classList.add('producto');
-            divProducto.dataset.id = producto.id;
-
-            divProducto.innerHTML = `
+            const div = document.createElement("div");
+            div.classList.add("producto");
+            div.innerHTML = `
                 <img src="${producto.img}" alt="${producto.nombre}" class="producto-img">
                 <h3>${producto.nombre}</h3>
                 <p>$${producto.precio.toFixed(2)}</p>
@@ -58,134 +61,80 @@ document.addEventListener("DOMContentLoaded", () => {
                 <input type="number" class="cantidad-select" min="1" value="1">
                 <button class="btn-agregar">Agregar al carrito</button>
             `;
-            productosContainer.appendChild(divProducto);
+            productosContainer.appendChild(div);
         });
 
-        // Agregar productos al carrito
-        document.querySelectorAll(".btn-agregar").forEach(boton => {
-            boton.addEventListener("click", (event) => {
-                const productoDiv = event.target.closest(".producto");
-                const nombre = productoDiv.querySelector("h3").textContent;
-                const precio = parseFloat(productoDiv.querySelector("p").textContent.replace('$', ''));
-                const talla = productoDiv.querySelector(".talla-select").value;
-                const cantidad = parseInt(productoDiv.querySelector(".cantidad-select").value);
+        document.querySelectorAll(".btn-agregar").forEach(btn => {
+            btn.addEventListener("click", (e) => {
+                const div = e.target.closest(".producto");
+                const nombre = div.querySelector("h3").textContent;
+                const precio = parseFloat(div.querySelector("p").textContent.replace("$", ""));
+                const talla = div.querySelector(".talla-select").value;
+                const cantidad = parseInt(div.querySelector(".cantidad-select").value);
 
-                const productoExistente = carritoArray.find(p => p.nombre === nombre && p.talla === talla);
-                if (productoExistente) {
-                    productoExistente.cantidad += cantidad; // Aumentar cantidad si ya está en el carrito
+                const existe = carritoArray.find(p => p.nombre === nombre && p.talla === talla);
+                if (existe) {
+                    existe.cantidad += cantidad;
                 } else {
                     carritoArray.push({ nombre, precio, talla, cantidad });
                 }
 
-                actualizarCarrito(); // Ahora actualiza el carrito
+                actualizarCarrito();
                 carrito.style.display = "block";
             });
         });
     }
 
-    // Actualizar carrito de compras
     function actualizarCarrito() {
         carritoLista.innerHTML = '';
         let total = 0;
 
-        carritoArray.forEach((producto) => {
+        carritoArray.forEach(p => {
             const li = document.createElement("li");
-            li.textContent = `${producto.nombre} - Talla: ${producto.talla} - Cantidad: ${producto.cantidad} - $${(producto.precio * producto.cantidad).toFixed(2)}`;
+            li.textContent = `${p.nombre} - Talla: ${p.talla} - Cantidad: ${p.cantidad} - $${(p.precio * p.cantidad).toFixed(2)}`;
             carritoLista.appendChild(li);
-            total += producto.precio * producto.cantidad;
+            total += p.precio * p.cantidad;
         });
 
         totalTexto.textContent = `Total: $${total.toFixed(2)}`;
-
-        // Guardar el carrito actualizado solo si hubo un cambio
         localStorage.setItem("carrito", JSON.stringify(carritoArray));
     }
 
-    // Mostrar vista previa del comprobante
-    const archivoInput = document.getElementById("comprobante-imagen");
-    archivoInput.addEventListener("change", (e) => {
-        const fileName = e.target.files[0].name;
-        document.getElementById("comprobante-nombre").textContent = `Comprobante seleccionado: ${fileName}`;
-    });
-
-    // Enviar comprobante
-    btnEnviarComprobanteModal.addEventListener("click", () => {
-        const nombreUsuario = nombreUsuarioInput.value.trim();
-
-        if (!nombreUsuario) {
-            alert("Por favor, ingresa tu nombre.");
+    btnComprar.addEventListener("click", () => {
+        if (carritoArray.length === 0) {
+            alert("Tu carrito está vacío.");
             return;
         }
 
-        if (archivoInput && archivoInput.files.length > 0) {
-            const comprobanteArchivo = archivoInput.files[0];
+        inputCarritoDatos.value = JSON.stringify(carritoArray, null, 2);
+        modalNombre.style.display = "block";
+    });
 
-            // Crear formulario para enviar a FormSubmit
-            const form = document.createElement("form");
-            form.action = "https://formsubmit.co/el/legaze";  // Asegúrate de que esta URL sea correcta
-            form.method = "POST";
-            form.enctype = "multipart/form-data";
-            form.style.display = "none";
-
-            const inputNombre = document.createElement("input");
-            inputNombre.name = "Nombre del usuario";
-            inputNombre.value = nombreUsuario;
-
-            const inputCarrito = document.createElement("input");
-            inputCarrito.name = "Carrito";
-            inputCarrito.value = JSON.stringify(carritoArray, null, 2);
-
-            const inputArchivo = document.createElement("input");
-            inputArchivo.type = "file";
-            inputArchivo.name = "Comprobante";
-            inputArchivo.files = archivoInput.files;
-
-            // Campos ocultos de control
-            const inputRedirect = document.createElement("input");
-            inputRedirect.type = "hidden";
-            inputRedirect.name = "_next";
-            inputRedirect.value = window.location.href;
-
-            const inputCaptcha = document.createElement("input");
-            inputCaptcha.type = "hidden";
-            inputCaptcha.name = "_captcha";
-            inputCaptcha.value = "false";
-
-            // Añadir al form
-            form.appendChild(inputNombre);
-            form.appendChild(inputCarrito);
-            form.appendChild(inputArchivo);
-            form.appendChild(inputRedirect);
-            form.appendChild(inputCaptcha);
-
-            document.body.appendChild(form);
-
-            form.submit(); // Enviar formulario
-
-            alert("Enviando comprobante...");
-            modalNombre.style.display = "none";
-            modal.style.display = "block"; // Mostrar el modal de gracias
-        } else {
-            alert("Por favor, sube un comprobante.");
+    archivoInput.addEventListener("change", (e) => {
+        const archivo = e.target.files[0];
+        if (archivo) {
+            comprobanteNombre.textContent = `Comprobante seleccionado: ${archivo.name}`;
         }
     });
 
-    // Vaciar carrito
     btnVaciarCarrito.addEventListener("click", () => {
-        localStorage.removeItem("carrito");
         carritoArray = [];
+        localStorage.removeItem("carrito");
         actualizarCarrito();
     });
 
-    // Cerrar carrito
-    btnCerrarCarrito.addEventListener("click", () => {
-        carrito.style.display = "none";
-    });
+    btnAbrirCarrito.addEventListener("click", () => carrito.style.display = "block");
+    btnCerrarCarrito.addEventListener("click", () => carrito.style.display = "none");
+    btnCerrarModalNombre.addEventListener("click", () => modalNombre.style.display = "none");
+    btnCerrarModalGracias.addEventListener("click", () => modal.style.display = "none");
 
-    // Abrir carrito
-    btnAbrirCarrito.addEventListener("click", () => {
-        carrito.style.display = "block";
+    formComprobante.addEventListener("submit", (e) => {
+        // NO hacemos preventDefault para que FormSubmit funcione
+        // Pero mostramos el modal antes de que redireccione si lo deseas
+        modalNombre.style.display = "none";
+        modal.style.display = "block";
     });
 
     cargarProductos();
+    actualizarCarrito();
 });
