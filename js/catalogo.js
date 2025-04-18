@@ -33,7 +33,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const comprobanteNombre = document.getElementById("comprobante-nombre");
     const formComprobante = document.getElementById("form-comprobante");
     const inputCarritoDatos = document.getElementById("carrito-datos");
-    const textareaPreview = document.getElementById("carrito-preview");
 
     const btnVaciarCarrito = document.getElementById("vaciar-carrito");
     const btnCerrarCarrito = document.getElementById("cerrar-carrito");
@@ -107,15 +106,7 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        // Formato JSON para envío
         inputCarritoDatos.value = JSON.stringify(carritoArray, null, 2);
-
-        // Formato bonito para vista previa
-        const resumenTexto = carritoArray.map(p => {
-            return `${p.nombre} - Talla: ${p.talla} - Cantidad: ${p.cantidad} - $${(p.precio * p.cantidad).toFixed(2)}`;
-        }).join('\n');
-        textareaPreview.value = resumenTexto;
-
         modalNombre.style.display = "block";
     });
 
@@ -137,7 +128,9 @@ document.addEventListener("DOMContentLoaded", () => {
     btnCerrarModalNombre.addEventListener("click", () => modalNombre.style.display = "none");
     btnCerrarModalGracias.addEventListener("click", () => modal.style.display = "none");
 
-    formComprobante.addEventListener("submit", () => {
+    formComprobante.addEventListener("submit", (e) => {
+        // NO hacemos preventDefault para que FormSubmit funcione
+        // Pero mostramos el modal antes de que redireccione si lo deseas
         modalNombre.style.display = "none";
         modal.style.display = "block";
     });
