@@ -137,8 +137,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     formComprobante.addEventListener("submit", () => {
         modalNombre.style.display = "none";
-        modal.style.display = "block";
+        // No mostrar modal personalizado, FormSubmit redirigirá automáticamente
     });
+    
 
     cargarProductos();
     actualizarCarrito();
